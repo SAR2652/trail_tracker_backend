@@ -23,4 +23,5 @@ Route::get('stream',  'APIController@streamVideo')->name('stream');
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'UserAPIController@getAuthenticatedUser');
     Route::get('getCameraList', 'APIController@getCameraList');
+    
 });

@@ -26,7 +26,7 @@ class APIController extends Controller
     public function streamVideo(Request $request)
     {
         {
-            $video_path = 'H:\xampp\htdocs\trail_tracker_backend\resources\videos\sample.mp4'; 
+            $video_path = '/opt/lampp/htdocs/trail_tracker_backend/resources/videos/sample.mp4'; 
             $tmp = new VideoStream($video_path);
             $tmp->start();
         }
