@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Camera;
@@ -20,15 +22,20 @@ class APIController extends Controller
             $zones[] = Zone::select('zone_name')->where('zone_id', $camera['zone_id'])->get();
         }
         
-        return array($cameras, $zones);            
+        $result = array($cameras, $zones);
+        return response()->json(['data' => $result]);     
     }
     
-    public function streamVideo(Request $request)
+    public function updateCameraStatus(Request $request)
     {
-        {
-            $video_path = '/opt/lampp/htdocs/trail_tracker_backend/resources/videos/sample.mp4'; 
-            $tmp = new VideoStream($video_path);
-            $tmp->start();
-        }
-    }
+        $camera = Camera::find($request->camera_id);
+        $camera->status = $request->status;
+        $camera->save();
+        return response()->json(['result' => 'Updated Camera Status!']);
+    } 
+    // public function streamVideo(Request $request)
+    // {
+    //     $result = shell_exec("python3 /opt/lampp/htdocs/trail_tracker_backend/app/Http/VideoStreamer/streamer.py");
+        
+    // }
 }
